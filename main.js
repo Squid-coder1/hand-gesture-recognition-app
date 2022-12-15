@@ -15,7 +15,7 @@ Webcam.set({
 });
  }
  console.log('ml5 version:', ml5.version);
- classifier=ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/Haao7Urbd/model.json',modelLoaded);
+ classifier=ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/laN9BxwFk/model.json',modelLoaded);
   
  function modelLoaded() {
     console.log('Model Loaded!');
@@ -23,8 +23,37 @@ Webcam.set({
 
  function speak(){
     var synth=window.speechSynthesis;
-    speak_data="The prediction is "+prediction;
-
-    var utterThis=new SpeechSynthysesisUtterance(speack_data);
+    speak_data="The prediction is "+prediction_1;
+    var utterThis=new SpeechSynthesisUtterance(speak_data);
     synth.speak(utterThis);
+ }
+ function check()
+ {
+    img=document.getElementById('captured_image');
+    classifier.classify(img,gotResult);
+    
+ }
+ function gotResult(error, results) {
+    if (error){
+        console.error(error);
+    } else {
+        console.log(results);
+        document.getElementById("result_emotion_name").innerHTML =results[0].label;
+        prediction_1=results[0].label;
+        speak();
+      
+        if(results[0].label =="hi")
+        {
+         document.getElementById("update_emoji").innerHTML="&#9995;";
+        }
+        if(results[0].label =="peace")
+        {
+         document.getElementById("update_emoji").innerHTML="&#9996;";
+        }
+        if(results[0].label =="rock'n'roll")
+        {
+         document.getElementById("update_emoji").innerHTML="&#129304;";
+        }
+      
+    }
  }
